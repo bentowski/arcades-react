@@ -10,7 +10,6 @@ class Game extends Component {
       , hMax=window.innerHeight
       , h=0
       , jHeight=500
-      , jWidth=10
       , yJ1=400
       , yJ2=400
       , first1=true
@@ -32,14 +31,6 @@ class Game extends Component {
     const j1Ctx = joueur1.getContext('2d')
     const joueur2 = this.refs.joueur2
     const j2Ctx = joueur2.getContext('2d')
-    console.log("yJ2 "+yJ2);
-    console.log("hMax "+hMax);
-    console.log("h "+h);
-    console.log("jHeight "+jHeight);
-    console.log("jWidth "+jWidth);
-    console.log("yJ1 "+yJ1);
-
-
 
     //===============interaction=================
     player=parseInt(prompt("combien de joueur ?",0))
@@ -148,16 +139,6 @@ class Game extends Component {
       }
     }
 
-    //============IA=====================
-    let ia = ()=>{
-      if(yJ2+51<yBalle){
-        j2Down()
-      }
-      if(yJ2+49>yBalle){
-        j2Up()
-      }
-    }
-
     //===============ball===================
     let moveBall = () =>{
         ctx.clearRect(0,0,globale.width,globale.height)
@@ -211,28 +192,20 @@ class Game extends Component {
         if(xBalle<=10 && yJ1<yBalle+sizeBalle && yBalle-sizeBalle<yJ1+100){
           vitessex=-vitessex
           vitessex+=levelUp
-          console.log(levelUp);
-          console.log(vitessex);
-          console.log(vitessey);
         }
         if(xBalle+sizeBalle<0){
-          console.log("end");
           game=false
         }
         if(xBalle-sizeBalle>globale.width){
-          console.log("end");
           game=false
         }
         if(game){
           window.requestAnimationFrame(moveBall)
-        }else{
-          console.log(vitessex);
-          if(vitessex>35){
+        }else if(vitessex>35){
             gameOver()
-          }else{
+          } else {
             console.log("WIN !!!");
           }
-        }
     }
 
     let gameOver = ()=>{
