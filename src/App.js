@@ -3,6 +3,7 @@ import './App.css';
 import SignUp from './components/SignUp'
 import SignIn from './components/SignIn'
 import Game from './components/game'
+import Connexion from './Data/connexion.json'
 
 class App extends Component {
   state = {
@@ -35,6 +36,13 @@ class App extends Component {
       this.setState({printing : null})
   }
 
+  verif = () => {
+    const clientListJ = localStorage.getItem("./Data/connexion")
+    const clientList = JSON.parse(clientListJ)
+    console.log(clientList);
+  }
+
+
 
 
   render() {
@@ -42,7 +50,9 @@ class App extends Component {
     let printing = this.state.printing
 
       switch (printing) {
-        case "Up": //affichage du formulaire d'inscription (mène à la page "registered")
+
+
+        case "Up": //Formulaire d'inscription
         printer = (
           <div>
             <h1>Register</h1>
@@ -52,16 +62,20 @@ class App extends Component {
               {/* TODO: verifier formlulaire et enregistrer dans Json*/}
           </div>
         )
-        break;
-        case "registered": //affichage de la confirmation d'inscription
+        break; //fin formulaire inscription
+
+
+        case "registered": //Confirmation adresse mail
         printer = (
           <div>
             <h1>registered</h1>
             <button onClick={this.game}>continue</button> {/*renvoi vers le jeu // TODO: verification mail*/}
           </div>
         )
-        break;
-        case "In": //affichage du formulaire de connexion (qui mène à la page de jeu)
+        break; // fin confirmation adresse mail
+
+
+        case "In": //Formulaire de connexion
         printer = (
           <div>
             <h1>Register</h1>
@@ -70,48 +84,49 @@ class App extends Component {
             <SignIn click={() => this.check()} />
           </div>
         )
-        break;
-        case "check": //verifie le formulaire de connexion  // TODO: effectuer la verification avec fichier Json au lieu de ci-dessous
-        let user=[
-          {username:"jean", password:"123"},
-          {username:"jeanne", password:"456"},
-          {username:"michael", password:"789"},
-          {username:"george", password:"987"}
-        ]
+        break; // fin formulaire de connexion
 
-        let envoi = () => {
-          let questionUser=document.getElementById("username").value
-          , questionPassword=document.getElementById("password").value
-          for(let i=0; i<user.length; i++){
-            if(questionUser===user[i].username && questionPassword===user[i].password){
-              this.game()
-            }
-          }
-        }
-        envoi ()
-        break;
-        case "game": //affichage du jeu (c'est là qu'il y a un soucis)
+
+        case "check": //verifie le formulaire de connexion  // TODO: effectuer la verification avec fichier Json au lieu de ci-dessous
+        printer = (
+          <div>
+            <p>En attente</p>
+          </div>
+        )
+        break; // fin du check
+
+
+        case "game": //Jeu
           printer =(
             <div>
               <Game />
             </div>
           )
-          break;
-          default: //affiche la page d'accueil lorsque "printing" vaut "null" (initial)
+          break; // fin de jeu
+
+
+          default: //Page d'accueil "printing=null"
           printer = (
             <div>
               <h1>Welcome</h1>
               <button onClick={this.SignUp}>Sign Up</button>
               <button onClick={this.SignIn}>Sign In</button>
             </div>
-          )
-      }
+          ) // fin page d'accueil
+
+
+      } //Fin du switch
+
+
+// Envoi du résultat
     return (
       <div className="App">
         {printer} {/*affichage adaptatif*/}
+        <div><p>affichage du json</p></div>
+        <button onClick={this.verif}>TEST</button>
       </div>
-    );
-  }
-}
+    ); // fin de return
+  } // fin de render
+} // fin de App
 
 export default App;
